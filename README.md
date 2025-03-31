@@ -43,3 +43,56 @@ A collection of Python tools to track music playback and synchronize with Spotif
 ### Sonos Tracker
 
 To track songs playing on your Sonos system:
+
+```
+python run.py
+```
+
+This script will:
+- Discover Sonos devices on your network.
+- Prompt you to select a device.
+- Monitor the selected device, displaying the current track info.
+- Optionally update the song on Spotify if integration is enabled.
+
+### 1LIVE DIGGI Integration
+
+Run this script to monitor the 1LIVE DIGGI radio stream and update Spotify with the currently playing song:
+
+```
+python 1liveDIGGI.py
+```
+
+It will:
+- Connect to Spotify via your saved or interactive credentials.
+- Fetch the current song from 1LIVE DIGGI.
+- Search for the track on Spotify and start playback.
+
+### BigFM Integration
+
+To monitor BigFM radio and update Spotify accordingly, execute:
+
+```
+python bigfm.py
+```
+
+It will:
+- Generate a query using the current time to fetch the latest song from BigFM’s API.
+- Search Spotify for this song and update playback on an active device.
+
+## Spotify Authentication
+
+The first time you run any script with Spotify integration, you will be prompted to enter your Spotify Client Secret and authenticate via your browser. Your credentials will be saved in `spotify_credentials.json` for future use.
+
+## Troubleshooting
+
+- **No Sonos devices found:** Ensure your computer is on the same network as your Sonos system.
+- **Spotify authentication issues:** Verify that your Spotify app’s Redirect URI is set to one of `http://localhost:8888/callback` or `http://127.0.0.1:8888/callback`.
+- **Song not found on Spotify:** Some tracks may have differing metadata or might not be available on Spotify.
+
+## License
+
+This project is open-source.
+
+## Contributing
+
+Contributions are welcome! Please submit pull requests or open issues for any bugs or feature requests.
