@@ -5,6 +5,7 @@ A collection of Python tools to track music playback and synchronize with Spotif
 1. **Sonos Tracker** - Monitors songs playing on your Sonos devices and can update Spotify playback 
 2. **1LIVE DIGGI Integration** - Tracks currently playing songs on 1LIVE DIGGI radio and plays them on Spotify
 3. **BigFM Integration** - Tracks currently playing songs on BigFM radio and plays them on Spotify
+4. **Spotify Utilities** - Shared module for Spotify authentication and playback
 
 ## Features
 
@@ -13,6 +14,7 @@ A collection of Python tools to track music playback and synchronize with Spotif
 - Automatically authenticate with Spotify API
 - Save and reuse Spotify credentials
 - Maintain playback position when transferring songs
+- Shared code architecture for easier maintenance and consistency
 
 ## Requirements
 
@@ -37,6 +39,17 @@ A collection of Python tools to track music playback and synchronize with Spotif
 3. Create a Spotify application at [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/applications)
    - Set the redirect URI to: `http://localhost:8888/callback` or `http://127.0.0.1:8888/callback`
    - Note your Client ID and Client Secret
+
+## Architecture
+
+The project is structured with a shared module for Spotify functionality, improving code reuse and maintainability:
+
+- `spotify_utils.py` - Contains shared Spotify authentication and playback functions
+- `run.py` - Sonos tracking script
+- `1liveDIGGI.py` - 1LIVE DIGGI integration script
+- `bigfm.py` - BigFM integration script
+
+All scripts use the shared Spotify utilities for consistent authentication and playback behavior.
 
 ## Usage
 
@@ -76,18 +89,24 @@ python bigfm.py
 ```
 
 It will:
-- Generate a query using the current time to fetch the latest song from BigFM’s API.
+- Generate a query using the current time to fetch the latest song from BigFM's API.
 - Search Spotify for this song and update playback on an active device.
 
 ## Spotify Authentication
 
-The first time you run any script with Spotify integration, you will be prompted to enter your Spotify Client Secret and authenticate via your browser. Your credentials will be saved in `spotify_credentials.json` for future use.
+The first time you run any script with Spotify integration, you will be prompted to enter your Spotify Client ID and Client Secret. You'll need to authenticate via your browser. Your credentials will be saved in `spotify_credentials.json` for future use.
+
+To obtain your Spotify credentials:
+1. Create a Spotify application at [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/applications)
+2. Set the redirect URI to: `http://localhost:8888/callback` or `http://127.0.0.1:8888/callback`
+3. Copy both your Client ID and Client Secret for use in the application
 
 ## Troubleshooting
 
 - **No Sonos devices found:** Ensure your computer is on the same network as your Sonos system.
-- **Spotify authentication issues:** Verify that your Spotify app’s Redirect URI is set to one of `http://localhost:8888/callback` or `http://127.0.0.1:8888/callback`.
+- **Spotify authentication issues:** Verify that your Spotify app's Redirect URI is set to one of `http://localhost:8888/callback` or `http://127.0.0.1:8888/callback`.
 - **Song not found on Spotify:** Some tracks may have differing metadata or might not be available on Spotify.
+- **Module import errors:** Make sure all files are in the same directory.
 
 ## License
 

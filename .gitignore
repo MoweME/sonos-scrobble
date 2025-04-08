@@ -1,6 +1,11 @@
-
+# Python cache files
 __pycache__/
+*.py[cod]
+*$py.class
 
+# Spotify authentication cache
 .cache
+.cache-*
 
+# Credentials file
 spotify_credentials.json
