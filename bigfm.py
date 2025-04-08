@@ -136,6 +136,13 @@ def wait_for_spotify_device(spotify, device_name=None):
         print("\nDevice connection cancelled.")
         return None
 
+def clean_string(text):
+    """Remove radio station indicators like '*NEU*' from strings."""
+    if not text:
+        return text
+    # Remove *NEU* tag that BigFM adds to new songs
+    return text.replace('*NEU*', '').strip()
+
 def fetch_current_song():
     """Fetch the current song playing on BigFM."""
     try:
@@ -163,6 +170,10 @@ def fetch_current_song():
         
         if not title or not artist:
             return None
+        
+        # Clean strings by removing *NEU* tag
+        title = clean_string(title)
+        artist = clean_string(artist)
             
         return {
             'artist': artist,
