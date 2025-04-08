@@ -12,7 +12,7 @@ import re
 
 # Reuse Spotify configuration from run.py
 SPOTIFY_SCOPE = 'user-read-playback-state user-modify-playback-state app-remote-control streaming'
-SPOTIFY_CLIENT_ID = 'c6574dd525bd4d58a95c2ef7541056bb'
+SPOTIFY_CLIENT_ID = ''
 SPOTIFY_CREDENTIALS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'spotify_credentials.json')
 SPOTIFY_REDIRECT_URIS = [
     "http://localhost:8888/callback",
@@ -54,17 +54,31 @@ def setup_spotify_client(token=None):
             credentials = load_spotify_credentials()
             client_id = SPOTIFY_CLIENT_ID
             client_secret = os.environ.get('SPOTIPY_CLIENT_SECRET', '')
+            
+            # Track if we need to prompt for save
+            credentials_changed = False
 
             if credentials:
                 client_id = credentials.get('client_id', client_id)
-                client_secret = credentials.get('client_secret')
+                client_secret = credentials.get('client_secret', client_secret)
                 print("Using saved Spotify credentials.")
-            elif not client_secret:
+            
+            # Check if either credential is missing
+            if not client_id:
+                client_id = input("Enter your Spotify Client ID: ").strip()
+                if not client_id:
+                    raise ValueError("Client ID is required")
+                credentials_changed = True
+                
+            if not client_secret:
                 client_secret = input("Enter your Spotify Client Secret: ").strip()
                 if not client_secret:
                     raise ValueError("Client secret is required")
-                if input("Save credentials? (y/n): ").lower() == 'y':
-                    save_spotify_credentials(client_id, client_secret)
+                credentials_changed = True
+            
+            # Only ask to save if we had to prompt for at least one credential
+            if credentials_changed and input("Save credentials? (y/n): ").lower() == 'y':
+                save_spotify_credentials(client_id, client_secret)
 
             for redirect_uri in SPOTIFY_REDIRECT_URIS:
                 try:

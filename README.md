@@ -81,7 +81,12 @@ It will:
 
 ## Spotify Authentication
 
-The first time you run any script with Spotify integration, you will be prompted to enter your Spotify Client Secret and authenticate via your browser. Your credentials will be saved in `spotify_credentials.json` for future use.
+The first time you run any script with Spotify integration, you will be prompted to enter your Spotify Client ID and Client Secret. You'll need to authenticate via your browser. Your credentials will be saved in `spotify_credentials.json` for future use.
+
+To obtain your Spotify credentials:
+1. Create a Spotify application at [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/applications)
+2. Set the redirect URI to: `http://localhost:8888/callback` or `http://127.0.0.1:8888/callback`
+3. Copy both your Client ID and Client Secret for use in the application
 
 ## Troubleshooting
 
